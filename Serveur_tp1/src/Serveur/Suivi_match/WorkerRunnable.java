@@ -3,6 +3,7 @@ package Serveur.Suivi_match;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.DatagramSocket;
 import java.net.Socket;
 
 /**
@@ -13,8 +14,8 @@ public class WorkerRunnable implements Runnable{
     protected Socket clientSocket = null;
     protected String serverText   = null;
 
-    public WorkerRunnable(Socket clientSocket, String serverText) {
-        this.clientSocket = clientSocket;
+    public WorkerRunnable(DatagramSocket clientSocket, String serverText) {
+     //   this.clientSocket = clientSocket;
         this.serverText   = serverText;
     }
 
