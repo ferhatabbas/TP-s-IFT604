@@ -1,3 +1,4 @@
+/*
 package Serveur.Suivi_match;
 
 import java.io.IOException;
@@ -6,9 +7,11 @@ import java.io.OutputStream;
 import java.net.DatagramSocket;
 import java.net.Socket;
 
+*/
 /**
  * Created by User on 2015-09-17.
- */
+ *//*
+
 public class WorkerRunnable implements Runnable{
 
     protected Socket clientSocket = null;
@@ -36,4 +39,4 @@ public class WorkerRunnable implements Runnable{
             e.printStackTrace();
         }
     }
-}
+}*/

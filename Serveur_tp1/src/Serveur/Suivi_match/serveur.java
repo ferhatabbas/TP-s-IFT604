@@ -3,78 +3,80 @@ package Serveur.Suivi_match;
 /**
  * Created by Ferhat on 2015-09-13.  c'est une version en tcp , je vais la changer en UDP prochainement
  */
+
+import Serveur.DATA.Match;
+
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.lang.String;
+import java.net.InetAddress;
+import java.util.concurrent.*;
 
 import static Serveur.Suivi_match.udp_client.echo;
 
-public class serveur implements Runnable{
+public class serveur implements Runnable {
 
-    protected int          serverPort   = 8080;
+    protected DatagramPacket paquet;
     protected DatagramSocket serverSocket = null;
     protected boolean      isStopped    = false;
-    protected Thread       runningThread= null;
     protected ExecutorService threadPool =
             Executors.newFixedThreadPool(10);
+    protected CompletionService<String> pool = new ExecutorCompletionService<String>(threadPool);
 
-    public serveur(int port){
-        this.serverPort = port;
+
+
+    public serveur(DatagramSocket srv){
+        serverSocket= srv;
     }
-    public  void main(String args[]){
-
-        run();
-    }
-
+    /**
+     * Méthode démarré par le thread.
+     */
+    @Override
     public void run(){
-        synchronized(this){
-            this.runningThread = Thread.currentThread();
-        }
 
-        while(! isStopped()){
-            DatagramSocket sock = null;
+        dispatcherequest();
+    }
+
+
+    private void dispatcherequest(){
+        while(true) {
+
             try {
-                //1. creating a server socket, parameter is local port number
-                sock = new DatagramSocket(7777);
 
                 //buffer to receive incoming data
                 byte[] buffer = new byte[65536];
                 DatagramPacket incoming = new DatagramPacket(buffer, buffer.length);
                 //2. Wait for an incoming data
-                    echo("Server socket created. Waiting for incoming data...");
+                echo("Server socket created. Waiting for incoming data...");
                 //communication loop
-                while(true)
-                {
-                    sock.receive(incoming);
-                    byte[] data = incoming.getData();
-                    String s = new String(data, 0, incoming.getLength());
+                while (true) {
+                    serverSocket.receive(incoming);
+                    String request = new String(incoming.getData());
+                    InetAddress IPadress = incoming.getAddress();
+                    int port = incoming.getPort();
+                    pool.submit(new Match(request));
+                    String out = pool.take().get();
 
                     //echo the details of incoming data - client ip : client port - client message
-                    echo(incoming.getAddress().getHostAddress() + " : " + incoming.getPort() + " - " + s);
-
-                    s = "OK : " + s;
-                    DatagramPacket dp = new DatagramPacket(s.getBytes() , s.getBytes().length , incoming.getAddress() , incoming.getPort());
-                    sock.send(dp);
+                    echo(incoming.getAddress().getHostAddress() + " : " + incoming.getPort() + " - " + out);
+                    DatagramPacket dp = new DatagramPacket(out.getBytes(), out.getBytes().length, IPadress, port);
+                    serverSocket.send(dp);
                 }
 
             } catch (IOException e) {
 
                 System.err.println(
-                        "Error accepting client connection"+ e);
+                        "Error accepting client connection" + e);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
             }
-            this.threadPool.execute(
-                    new WorkerRunnable(sock,
-                            "Thread Pooled Server"));
+            threadPool.shutdown();
+            System.out.println("thread Stopped.") ;
         }
-        this.threadPool.shutdown();
-        System.out.println("Server Stopped.") ;
-    }
 
+    }
     private synchronized boolean isStopped() {
         return this.isStopped;
     }

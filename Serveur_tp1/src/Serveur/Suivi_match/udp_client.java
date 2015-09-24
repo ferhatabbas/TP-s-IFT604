@@ -1,9 +1,12 @@
+/*
 package Serveur.Suivi_match;
 import java.io.*;
 import java.net.*;
+*/
 /**
  * Created by Sylvain on 2015-09-19.
- */
+ *//*
+
     public class udp_client
     {
         public static void main(String args[])
@@ -59,3 +62,4 @@ import java.net.*;
         }
     }
 
+*/
