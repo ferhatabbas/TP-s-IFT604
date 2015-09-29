@@ -1,8 +1,11 @@
+/*
 package Serveur.Suivi_match;
 
+*/
 /**
  * Created by Ferhat on 2015-09-13.  c'est une version en tcp , je vais la changer en UDP prochainement
- */
+ *//*
+
 
 import Serveur.DATA.Match;
 
@@ -12,7 +15,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.concurrent.*;
 
-import static Serveur.Suivi_match.udp_client.echo;
+import static Serveur.DATA.Match.echo;
+
 
 public class serveur implements Runnable {
 
@@ -28,9 +32,11 @@ public class serveur implements Runnable {
     public serveur(DatagramSocket srv){
         serverSocket= srv;
     }
-    /**
+    */
+/**
      * Méthode démarré par le thread.
-     */
+     *//*
+
     @Override
     public void run(){
 
@@ -91,4 +97,4 @@ public class serveur implements Runnable {
 
 
 
-}
+}*/
