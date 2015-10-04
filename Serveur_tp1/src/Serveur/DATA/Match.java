@@ -4,10 +4,7 @@ import javafx.util.Pair;
 
 import java.sql.Time;
 import java.time.Clock;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Vector;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 /**
@@ -18,27 +15,21 @@ import java.util.concurrent.Callable;
 public class Match //implements Callable<String>
 {
     protected int id;
-    protected String equipe1;
-    protected String equipe2;
+    protected Equipe equipe1;
+    protected Equipe equipe2;
     protected int chrono;
     protected long start = System.currentTimeMillis();
-    protected Integer pointageEquipe1;
-    protected Integer pointageEquipe2;
-    //Pointage et compteur
-    protected String penalite;
+
 
 
     private String cmd;
 
 
-    public Match(int idM,String equipe1M,String equipe2M,int chronoM,Integer pointageEquipe1M,Integer pointageEquipe2M,String penaliteM){
+    public Match(int idM,Equipe equipe1M,Equipe equipe2M,int chronoM){
         id = idM;
         equipe1=equipe1M;
         equipe2=equipe2M;
         chrono=chronoM;
-        pointageEquipe1 = pointageEquipe1M;
-        pointageEquipe2=pointageEquipe2M;
-        penalite=penaliteM;
     }
 
     public Match(String Commande){
