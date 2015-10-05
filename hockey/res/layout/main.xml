@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:weightSum="1">
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Bienvenue sur hockey Live"
+            android:layout_weight="0.11" android:id="@+id/titleid1" android:textSize="32dp"/>
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
+            android:layout_weight="0.64">
+        <Button
+                android:layout_width="214dp"
+                android:layout_height="123dp"
+                android:text="Paris"
+                android:id="@+id/buttonid2" android:layout_weight="0.04"
+                android:layout_gravity="center_horizontal|bottom"/>
+        <Button
+                android:layout_width="213dp"
+                android:layout_height="115dp"
+                android:text="Suivi match"
+                android:onClick="buttonClickFunction"
+                android:id="@+id/buttonid1" android:layout_gravity="center" android:nestedScrollingEnabled="false"/>
+    </FrameLayout>
+</LinearLayout>
+
